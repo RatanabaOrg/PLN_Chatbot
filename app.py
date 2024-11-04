@@ -1,5 +1,7 @@
 from flask import Flask, request, jsonify
 from chatterbot import ChatBot
+from trainer import trainningList
+from chatterbot.trainers import ListTrainer
 import nltk 
 nltk.download('punkt_tab')
 
@@ -18,6 +20,12 @@ chatbot = ChatBot(
     ],
     read_only=True
 )
+
+trainer = ListTrainer(chatbot)
+for vectors in trainningList:
+    for vector in vectors[0]:
+        trainer.train([vector, vectors[1]]) 
+
 
 
 @app.route('/chatbot', methods=['POST'])

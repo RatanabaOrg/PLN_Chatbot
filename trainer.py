@@ -1,7 +1,3 @@
-from chatterbot import ChatBot
-from chatterbot.trainers import ListTrainer
-from app import chatbot
-
 trainningList = [
     [
         [
@@ -47,12 +43,5 @@ trainningList = [
         ],
 
         "Você pode visualizar as áreas cadastradas na página Visualizar, localizada na seção ACESSOS, no menu lateral."
-    ],
-
+    ]
 ]
-
-trainer = ListTrainer(chatbot)
-
-for vectors in trainningList:
-    for vector in vectors[0]:
-        trainer.train([vector, vectors[1]]) 
