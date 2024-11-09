@@ -24,10 +24,7 @@ trainningList = [
     ],
     [
         [
-            "visualizar um usuário",
             "visualizar usuários",
-            "visualizar os usuários",
-            "visualizar todos os usuários",
             "visualizar todos usuários",
         ],
 
@@ -38,7 +35,6 @@ trainningList = [
             "áreas cadastradas",
             "visualizar área",
             "visualizar áreas",
-            "visualizar todas as áreas",
             "visualizar todas áreas",
         ],
 

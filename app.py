@@ -3,14 +3,17 @@ from chatterbot import ChatBot
 from trainer import trainningList
 from chatterbot.trainers import ListTrainer
 import nltk 
+from nltk.corpus import stopwords
+
 nltk.download('punkt_tab')
+nltk.download('stopwords')
 
 app = Flask(__name__)
 
 chatbot = ChatBot(
     'Training Example',
     storage_adapter='chatterbot.storage.MongoDatabaseAdapter',
-    database_uri="mongodb+srv://ratanabaorg:praga@cluster0.m8qcp.mongodb.net/chatterbot-database?retryWrites=true&w=majority&appName=Cluster0",
+    database_uri="mongodb+srv://ratanabaorg:praga@cluster0.m8qcp.mongodb.net/ratanaba?retryWrites=true&w=majority&appName=Cluster0",
     logic_adapters=[
         {
             'import_path': 'chatterbot.logic.BestMatch',
@@ -31,9 +34,10 @@ for vectors in trainningList:
 @app.route('/chatbot', methods=['POST'])
 def chatbot_response():
     data = request.get_json()
-    query = data.get('query')
-    
-    response = str(chatbot.get_response(query))
+    text = data.get('text')
+    stop_words = set(stopwords.words('portuguese'))
+    text = [word for word in text.split() if word.lower() not in stop_words]
+    response = str(chatbot.get_response(' '.join(text)))
     
     return jsonify({"response": response})
 
