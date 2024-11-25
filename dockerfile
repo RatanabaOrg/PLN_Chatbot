@@ -1,20 +1,23 @@
-# Use a imagem oficial do Python como base
+# Use the official Python image as the base
 FROM python:3.9-slim
 
-# Defina o diretório de trabalho no container
+# Set the working directory in the container
 WORKDIR /app
 
-# Copie os arquivos de dependência para o container
+# Copy dependency files to the container
 COPY requirements.txt .
 
-# Instale as dependências do projeto
+# Install project dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copie o restante dos arquivos para o container
+# Download the required NLTK corpora
+RUN python -m nltk.downloader mac_morpho
+
+# Copy the rest of the project files to the container
 COPY . .
 
-# Exponha a porta onde o Flask será executado
+# Expose the port where Flask will run
 EXPOSE 5000
 
-# Defina o comando para iniciar o servidor Flask
+# Set the command to run the Flask server
 CMD ["python", "app.py"]

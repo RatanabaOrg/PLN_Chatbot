@@ -25,3 +25,4 @@ SQLAlchemy==1.2.19
 tqdm==4.66.5
 typing_extensions==4.12.2
 Werkzeug==3.0.4
+Flask-Cors==4.0.0

@@ -1,10 +1,11 @@
 import re
 from flask import Flask, request, jsonify
+from flask_cors import CORS  # Importação do CORS
 from chatterbot import ChatBot
 from trainer import trainningList
 from chatterbot.trainers import ListTrainer
 from pymongo import MongoClient
-import nltk 
+import nltk
 from nltk.corpus import stopwords
 from corrector import correct_phrases
 
@@ -15,6 +16,7 @@ stopwords = stopwords.words('portuguese') + ["a", "as", "o", "os", "uma", "um", 
 stopwords = set(stopwords)
 
 app = Flask(__name__)
+CORS(app)  # Habilitar CORS no aplicativo
 
 mongo_uri = "mongodb+srv://ratanabaorg:praga@cluster0.m8qcp.mongodb.net/ratanaba?retryWrites=true&w=majority&appName=Cluster0"
 client = MongoClient(mongo_uri)
@@ -40,8 +42,7 @@ chatbot = ChatBot(
 trainer = ListTrainer(chatbot)
 for vectors in trainningList:
     for vector in vectors[0]:
-        trainer.train([vector, vectors[1]]) 
-
+        trainer.train([vector, vectors[1]])
 
 @app.route('/chatbot', methods=['POST'])
 def chatbot_response():
@@ -54,7 +55,5 @@ def chatbot_response():
     response = str(chatbot.get_response(' '.join(filtered_words)))
     return jsonify({"response": response})
 
-
 if __name__ == "__main__":
     app.run(debug=False, host='0.0.0.0', port=5000)
-
